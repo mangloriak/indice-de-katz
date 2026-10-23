@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Escala de Katz</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="container">
+      <section class="card">
+        <p class="eyebrow">Valoración funcional</p>
+        <h1>Escala de Índice de Katz</h1>
+        <p class="subtitle">
+          Evalúa la independencia para realizar las Actividades Básicas de la Vida Diaria (ABVD).
+        </p>
+
+        <form id="katz-form">
+          <div class="question" data-question="bañarse">
+            <div class="question-header">
+              <label>1. Bañarse</label>
+            </div>
+            <div class="options">
+              <label><input type="radio" name="bañarse" value="1" checked /> Independiente</label>
+              <label><input type="radio" name="bañarse" value="0" /> Necesita ayuda / dependiente</label>
+            </div>
+          </div>
+
+          <div class="question" data-question="vestirse">
+            <div class="question-header">
+              <label>2. Vestirse</label>
+            </div>
+            <div class="options">
+              <label><input type="radio" name="vestirse" value="1" checked /> Independiente</label>
+              <label><input type="radio" name="vestirse" value="0" /> Necesita ayuda / dependiente</label>
+            </div>
+          </div>
+
+          <div class="question" data-question="aseo">
+            <div class="question-header">
+              <label>3. Aseo personal</label>
+            </div>
+            <div class="options">
+              <label><input type="radio" name="aseo" value="1" checked /> Independiente</label>
+              <label><input type="radio" name="aseo" value="0" /> Necesita ayuda / dependiente</label>
+            </div>
+          </div>
+
+          <div class="question" data-question="ir_al_bano">
+            <div class="question-header">
+              <label>4. Ir al baño</label>
+            </div>
+            <div class="options">
+              <label><input type="radio" name="ir_al_bano" value="1" checked /> Independiente</label>
+              <label><input type="radio" name="ir_al_bano" value="0" /> Necesita ayuda / dependiente</label>
+            </div>
+          </div>
+
+          <div class="question" data-question="deambulacion">
+            <div class="question-header">
+              <label>5. Traslado / deambulación</label>
+            </div>
+            <div class="options">
+              <label><input type="radio" name="deambulacion" value="1" checked /> Independiente</label>
+              <label><input type="radio" name="deambulacion" value="0" /> Necesita ayuda / dependiente</label>
+            </div>
+          </div>
+
+          <div class="question" data-question="continencia">
+            <div class="question-header">
+              <label>6. Continencia</label>
+            </div>
+            <div class="options">
+              <label><input type="radio" name="continencia" value="1" checked /> Independiente</label>
+              <label><input type="radio" name="continencia" value="0" /> Necesita ayuda / dependiente</label>
+            </div>
+          </div>
+
+          <div class="question" data-question="alimentacion">
+            <div class="question-header">
+              <label>7. Alimentación</label>
+            </div>
+            <div class="options">
+              <label><input type="radio" name="alimentacion" value="1" checked /> Independiente</label>
+              <label><input type="radio" name="alimentacion" value="0" /> Necesita ayuda / dependiente</label>
+            </div>
+          </div>
+        </form>
+
+        <div class="summary" id="result-box">
+          <h2>Resultado</h2>
+          <div class="score-row">
+            <span class="score-label">Puntuación total:</span>
+            <span id="score" class="score">7</span>
+          </div>
+          <p id="interpretation" class="interpretation">Independiente</p>
+          <p id="description" class="description">
+            La persona puede realizar todas las actividades sin ayuda.
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
