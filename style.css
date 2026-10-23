@@ -119,7 +119,8 @@ input {
 .info-card,
 .question-card,
 .legend-card,
-.mini-box {
+.mini-box,
+.intro-card {
   background: rgba(255, 255, 255, 0.9);
   border: 1px solid var(--border);
   border-radius: 22px;
@@ -292,6 +293,58 @@ h1 {
 .summary-card p {
   margin: 0;
   color: var(--text);
+  line-height: 1.65;
+}
+
+.info-intro {
+  margin: 10px 0 24px;
+}
+
+.intro-head {
+  margin-bottom: 18px;
+}
+
+.intro-head h2 {
+  margin: 0;
+  font-size: clamp(1.5rem, 2.2vw, 2.3rem);
+}
+
+.info-intro-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.intro-card {
+  padding: 20px 18px;
+}
+
+.intro-card.accent {
+  background: linear-gradient(135deg, rgba(47, 94, 247, 0.05), rgba(20, 184, 124, 0.08));
+}
+
+.intro-tag {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 7px 10px;
+  background: var(--primary-soft);
+  color: var(--primary-strong);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.intro-card h3 {
+  margin: 0 0 8px;
+  font-size: 1.08rem;
+}
+
+.intro-card p {
+  margin: 0;
+  color: var(--muted);
   line-height: 1.65;
 }
 
@@ -622,7 +675,8 @@ h1 {
   .hero,
   .info-panels,
   .feature-grid,
-  .explain-grid {
+  .explain-grid,
+  .info-intro-grid {
     grid-template-columns: 1fr;
   }
 
@@ -645,7 +699,8 @@ h1 {
   .form-grid,
   .scale-grid,
   .compact-grid,
-  .explain-grid {
+  .explain-grid,
+  .info-intro-grid {
     grid-template-columns: 1fr;
   }
 
@@ -659,7 +714,8 @@ h1 {
   .info-card,
   .question-card,
   .legend-card,
-  .mini-box {
+  .mini-box,
+  .intro-card {
     border-radius: 18px;
   }
 }
