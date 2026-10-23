@@ -1,106 +1,811 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Escala de Katz</title>
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
-    <main class="container">
-      <section class="card">
-        <p class="eyebrow">Valoración funcional</p>
-        <h1>Escala de Índice de Katz</h1>
-        <p class="subtitle">
-          Evalúa la independencia para realizar las Actividades Básicas de la Vida Diaria (ABVD).
-        </p>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Escala de Katz</title>
+  <style>
+    :root {
+      --bg-1: #eef6ff;
+      --bg-2: #f7fbff;
+      --primary: #2f5ef7;
+      --primary-dark: #1f43c4;
+      --primary-soft: #eaf1ff;
+      --green: #19a974;
+      --green-soft: #eafaf4;
+      --amber: #f3a31d;
+      --amber-soft: #fff7e8;
+      --red: #e14d5a;
+      --red-soft: #fff0f2;
+      --text: #213149;
+      --muted: #58708f;
+      --border: rgba(63, 97, 162, 0.12);
+      --shadow: 0 18px 45px rgba(39, 79, 160, 0.12);
+      --white: #ffffff;
+    }
 
-        <form id="katz-form">
-          <div class="question" data-question="bañarse">
-            <div class="question-header">
-              <label>1. Bañarse</label>
-            </div>
-            <div class="options">
-              <label><input type="radio" name="bañarse" value="1" checked /> Independiente</label>
-              <label><input type="radio" name="bañarse" value="0" /> Necesita ayuda / dependiente</label>
-            </div>
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(47, 94, 247, 0.15), transparent 30%),
+        radial-gradient(circle at bottom right, rgba(25, 169, 116, 0.12), transparent 24%),
+        linear-gradient(135deg, var(--bg-1), var(--bg-2));
+      color: var(--text);
+    }
+
+    .container {
+      width: min(1200px, calc(100% - 24px));
+      margin: 30px auto 60px;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 20px;
+      padding: 4px 2px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--primary-dark);
+      font-size: 0.78rem;
+    }
+
+    .brand-mark {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--primary) 0%, #6aa8ff 100%);
+      color: var(--white);
+      box-shadow: 0 12px 25px rgba(47, 94, 247, 0.22);
+      font-weight: 800;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255,255,255,0.65);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 10px 14px;
+      color: var(--muted);
+      font-size: 0.8rem;
+      font-weight: 700;
+      box-shadow: 0 10px 22px rgba(20, 35, 68, 0.04);
+    }
+
+    .panel {
+      background: rgba(255,255,255,0.62);
+      border: 1px solid rgba(255,255,255,0.8);
+      border-radius: 30px;
+      padding: 28px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(8px);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.3fr 0.9fr;
+      gap: 22px;
+      margin-bottom: 24px;
+    }
+
+    .hero-copy,
+    .summary-card,
+    .info-card,
+    .question-card,
+    .legend-card {
+      background: rgba(255,255,255,0.85);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      box-shadow: 0 14px 28px rgba(24, 42, 76, 0.05);
+    }
+
+    .hero-copy {
+      padding: 26px 28px;
+      background: linear-gradient(135deg, rgba(47,94,247,0.04), rgba(25,169,116,0.05));
+    }
+
+    .eyebrow {
+      margin: 0 0 12px;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      font-weight: 800;
+      color: var(--primary);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(2.2rem, 4vw, 3.4rem);
+      letter-spacing: -0.06em;
+      line-height: 1.05;
+      color: var(--text);
+    }
+
+    .subtitle {
+      margin: 14px 0 18px;
+      color: var(--muted);
+      line-height: 1.65;
+      font-size: 1.02rem;
+      max-width: 60ch;
+    }
+
+    .chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: var(--primary-soft);
+      border: 1px solid rgba(47,94,247,0.14);
+      color: var(--primary-dark);
+      font-size: 0.75rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+    }
+
+    .summary-card {
+      padding: 22px 20px;
+      background: linear-gradient(135deg, rgba(47,94,247,0.12), rgba(25,169,116,0.08));
+      position: relative;
+      overflow: hidden;
+    }
+
+    .summary-card::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 120px;
+      height: 120px;
+      border-radius: 0 0 100% 0;
+      background: rgba(255,255,255,0.22);
+    }
+
+    .summary-card > * { position: relative; z-index: 1; }
+
+    .mini-label {
+      color: var(--muted);
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-weight: 800;
+    }
+
+    .score-wrap {
+      display: flex;
+      align-items: end;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .score {
+      font-size: clamp(2.8rem, 5vw, 4rem);
+      font-weight: 900;
+      letter-spacing: -0.06em;
+      color: var(--primary-dark);
+      line-height: 1;
+    }
+
+    .score-max {
+      font-size: 1rem;
+      color: var(--muted);
+      font-weight: 700;
+      padding-bottom: 10px;
+    }
+
+    .interpretation {
+      margin: 18px 0 12px;
+      font-size: 1.18rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--green);
+    }
+
+    .meter {
+      width: 100%;
+      height: 12px;
+      background: rgba(148, 163, 184, 0.2);
+      border-radius: 999px;
+      overflow: hidden;
+      margin-bottom: 12px;
+    }
+
+    .meter-fill {
+      width: 100%;
+      height: 100%;
+      display: block;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--green), var(--primary));
+      transition: width 0.25s ease, background 0.25s ease;
+    }
+
+    .summary-card[data-state="independiente"] .interpretation { color: var(--green); }
+    .summary-card[data-state="independiente"] .meter-fill {
+      background: linear-gradient(90deg, #11c27d 0%, #0da368 100%);
+    }
+
+    .summary-card[data-state="leve"] .interpretation { color: #0b9c6d; }
+    .summary-card[data-state="leve"] .meter-fill {
+      background: linear-gradient(90deg, #57d0a1 0%, #12a96d 100%);
+    }
+
+    .summary-card[data-state="moderada"] .interpretation { color: #d98a00; }
+    .summary-card[data-state="moderada"] .meter-fill {
+      background: linear-gradient(90deg, #ffbf52 0%, #ee9300 100%);
+    }
+
+    .summary-card[data-state="severa"] .interpretation { color: var(--red); }
+    .summary-card[data-state="severa"] .meter-fill {
+      background: linear-gradient(90deg, #ff8b8b 0%, #e34a5a 100%);
+    }
+
+    .summary-card p {
+      margin: 0;
+      color: var(--text);
+      line-height: 1.65;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+      margin-bottom: 20px;
+    }
+
+    .info-card {
+      padding: 20px 18px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      padding: 7px 10px;
+      background: var(--primary-soft);
+      color: var(--primary-dark);
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .info-card h3 {
+      margin: 0 0 8px;
+      font-size: 1.08rem;
+    }
+
+    .info-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 0.96rem;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .question-card {
+      padding: 18px 18px 16px;
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .question-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 18px 36px rgba(16, 34, 64, 0.07);
+    }
+
+    .question-head {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .number {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--primary) 0%, #7aa6ff 100%);
+      color: var(--white);
+      font-weight: 800;
+      box-shadow: 0 12px 20px rgba(47,94,247,0.18);
+    }
+
+    .question-card h3 {
+      margin: 0;
+      font-size: 1.08rem;
+    }
+
+    .question-card p {
+      margin: 0 0 12px;
+      color: var(--muted);
+      line-height: 1.5;
+      font-size: 0.9rem;
+    }
+
+    .options {
+      display: grid;
+      gap: 10px;
+    }
+
+    .choice {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border: 1px solid var(--border);
+      background: #fbfcff;
+      border-radius: 12px;
+      padding: 12px 12px;
+      cursor: pointer;
+      transition: border-color 0.15s ease, background 0.15s ease;
+    }
+
+    .choice:hover {
+      background: rgba(47,94,247,0.03);
+      border-color: rgba(47,94,247,0.22);
+    }
+
+    .choice input {
+      accent-color: var(--primary);
+      width: 18px;
+      height: 18px;
+      margin: 0;
+    }
+
+    .choice span {
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .legend {
+      margin-top: 24px;
+    }
+
+    .legend-card {
+      padding: 20px 18px;
+    }
+
+    .legend-card h4 {
+      margin: 0 0 14px;
+      font-size: 1.08rem;
+    }
+
+    .scale-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .scale {
+      border-radius: 14px;
+      padding: 12px 12px 10px;
+      border: 1px solid var(--border);
+    }
+
+    .scale strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 0.96rem;
+    }
+
+    .scale p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.88rem;
+      line-height: 1.5;
+    }
+
+    .scale.indep {
+      background: rgba(25,169,116,0.08);
+      border-color: rgba(25,169,116,0.18);
+    }
+
+    .scale.leve {
+      background: rgba(25,169,116,0.05);
+      border-color: rgba(25,169,116,0.12);
+    }
+
+    .scale.moderada {
+      background: rgba(243,163,29,0.08);
+      border-color: rgba(243,163,29,0.14);
+    }
+
+    .scale.severa {
+      background: rgba(225,77,90,0.08);
+      border-color: rgba(225,77,90,0.14);
+    }
+
+    .actions {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 24px;
+    }
+
+    .reset-btn {
+      border: none;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--primary) 0%, #6aa8ff 100%);
+      color: var(--white);
+      padding: 12px 18px;
+      cursor: pointer;
+      font-weight: 800;
+      box-shadow: 0 14px 20px rgba(47,94,247,0.2);
+      transition: transform 0.18s ease;
+    }
+
+    .reset-btn:hover {
+      transform: translateY(-1px);
+    }
+
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; }
+      .info-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 700px) {
+      .panel { padding: 18px; }
+      .topbar { flex-direction: column; align-items: flex-start; }
+      .form-grid,
+      .scale-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="topbar">
+      <div class="brand">
+        <span class="brand-mark">K</span>
+        <span>Escala de Katz</span>
+      </div>
+      <div class="status-pill">Valoración funcional · ABVD</div>
+    </div>
+
+    <div class="panel">
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">valoración funcional</p>
+          <h1>Índice de Katz</h1>
+          <p class="subtitle">
+            Herramienta clínica utilizada para evaluar el grado de independencia de una persona
+            al realizar actividades básicas de la vida diaria, como aseo personal, movilidad,
+            continencia, alimentación y cuidado personal.
+          </p>
+
+          <div class="chip-row">
+            <span class="chip">ABVD</span>
+            <span class="chip">Autonomía</span>
+            <span class="chip">Atención clínica</span>
+            <span class="chip">Funcionamiento</span>
+          </div>
+        </div>
+
+        <aside class="summary-card" id="summaryCard" data-state="independiente">
+          <div class="mini-label">Resultado</div>
+
+          <div class="score-wrap">
+            <span class="score" id="score">7</span>
+            <span class="score-max">/ 7</span>
           </div>
 
-          <div class="question" data-question="vestirse">
-            <div class="question-header">
-              <label>2. Vestirse</label>
-            </div>
-            <div class="options">
-              <label><input type="radio" name="vestirse" value="1" checked /> Independiente</label>
-              <label><input type="radio" name="vestirse" value="0" /> Necesita ayuda / dependiente</label>
-            </div>
+          <div class="interpretation" id="interpretation">Independiente</div>
+
+          <div class="meter">
+            <span class="meter-fill" id="meterFill"></span>
           </div>
 
-          <div class="question" data-question="aseo">
-            <div class="question-header">
-              <label>3. Aseo personal</label>
-            </div>
-            <div class="options">
-              <label><input type="radio" name="aseo" value="1" checked /> Independiente</label>
-              <label><input type="radio" name="aseo" value="0" /> Necesita ayuda / dependiente</label>
-            </div>
-          </div>
-
-          <div class="question" data-question="ir_al_bano">
-            <div class="question-header">
-              <label>4. Ir al baño</label>
-            </div>
-            <div class="options">
-              <label><input type="radio" name="ir_al_bano" value="1" checked /> Independiente</label>
-              <label><input type="radio" name="ir_al_bano" value="0" /> Necesita ayuda / dependiente</label>
-            </div>
-          </div>
-
-          <div class="question" data-question="deambulacion">
-            <div class="question-header">
-              <label>5. Traslado / deambulación</label>
-            </div>
-            <div class="options">
-              <label><input type="radio" name="deambulacion" value="1" checked /> Independiente</label>
-              <label><input type="radio" name="deambulacion" value="0" /> Necesita ayuda / dependiente</label>
-            </div>
-          </div>
-
-          <div class="question" data-question="continencia">
-            <div class="question-header">
-              <label>6. Continencia</label>
-            </div>
-            <div class="options">
-              <label><input type="radio" name="continencia" value="1" checked /> Independiente</label>
-              <label><input type="radio" name="continencia" value="0" /> Necesita ayuda / dependiente</label>
-            </div>
-          </div>
-
-          <div class="question" data-question="alimentacion">
-            <div class="question-header">
-              <label>7. Alimentación</label>
-            </div>
-            <div class="options">
-              <label><input type="radio" name="alimentacion" value="1" checked /> Independiente</label>
-              <label><input type="radio" name="alimentacion" value="0" /> Necesita ayuda / dependiente</label>
-            </div>
-          </div>
-        </form>
-
-        <div class="summary" id="result-box">
-          <h2>Resultado</h2>
-          <div class="score-row">
-            <span class="score-label">Puntuación total:</span>
-            <span id="score" class="score">7</span>
-          </div>
-          <p id="interpretation" class="interpretation">Independiente</p>
-          <p id="description" class="description">
+          <p id="description">
             La persona puede realizar todas las actividades sin ayuda.
+          </p>
+        </aside>
+      </section>
+
+      <section class="info-grid">
+        <div class="info-card">
+          <span class="tag">Objetivo</span>
+          <h3>Evaluar autonomía</h3>
+          <p>
+            Identifica si la persona requiere ayuda para realizar actividades esenciales
+            del cuidado diario y su nivel de dependencia funcional.
+          </p>
+        </div>
+
+        <div class="info-card">
+          <span class="tag">Puntuación</span>
+          <h3>Escala de 0 a 7</h3>
+          <p>
+            Cuanto mayor sea la puntuación, mayor es la independencia funcional.
+            Los valores bajos indican dependencia para actividades básicas.
+          </p>
+        </div>
+
+        <div class="info-card">
+          <span class="tag">Importancia</span>
+          <h3>Uso clínico</h3>
+          <p>
+            Permite orientar la planificación de cuidados, rehabilitación, recursos de apoyo
+            y seguimiento del estado funcional de la persona.
           </p>
         </div>
       </section>
-    </main>
 
-    <script src="script.js"></script>
-  </body>
+      <form id="katzForm">
+        <div class="form-grid">
+          <article class="question-card">
+            <div class="question-head">
+              <div class="number">1</div>
+              <h3>Bañarse</h3>
+            </div>
+            <p>Capacidad para lavar el cuerpo de forma independiente.</p>
+
+            <div class="options">
+              <label class="choice">
+                <input type="radio" name="banarse" value="1" checked />
+                <span>Independiente</span>
+              </label>
+              <label class="choice">
+                <input type="radio" name="banarse" value="0" />
+                <span>Necesita ayuda</span>
+              </label>
+            </div>
+          </article>
+
+          <article class="question-card">
+            <div class="question-head">
+              <div class="number">2</div>
+              <h3>Vestirse</h3>
+            </div>
+            <p>Capacidad para ponerse y quitarse la ropa sin asistencia.</p>
+
+            <div class="options">
+              <label class="choice">
+                <input type="radio" name="vestirse" value="1" checked />
+                <span>Independiente</span>
+              </label>
+              <label class="choice">
+                <input type="radio" name="vestirse" value="0" />
+                <span>Necesita ayuda</span>
+              </label>
+            </div>
+          </article>
+
+          <article class="question-card">
+            <div class="question-head">
+              <div class="number">3</div>
+              <h3>Aseo personal</h3>
+            </div>
+            <p>Higiene personal, lavado de cara y cuidado diario.</p>
+
+            <div class="options">
+              <label class="choice">
+                <input type="radio" name="aseo" value="1" checked />
+                <span>Independiente</span>
+              </label>
+              <label class="choice">
+                <input type="radio" name="aseo" value="0" />
+                <span>Necesita ayuda</span>
+              </label>
+            </div>
+          </article>
+
+          <article class="question-card">
+            <div class="question-head">
+              <div class="number">4</div>
+              <h3>Ir al baño</h3>
+            </div>
+            <p>Uso del lavabo, WC y actividades relacionadas con higiene íntima.</p>
+
+            <div class="options">
+              <label class="choice">
+                <input type="radio" name="irAlBanio" value="1" checked />
+                <span>Independiente</span>
+              </label>
+              <label class="choice">
+                <input type="radio" name="irAlBanio" value="0" />
+                <span>Necesita ayuda</span>
+              </label>
+            </div>
+          </article>
+
+          <article class="question-card">
+            <div class="question-head">
+              <div class="number">5</div>
+              <h3>Traslado / deambulación</h3>
+            </div>
+            <p>Capacidad para movilizarse o transferirse sin ayuda.</p>
+
+            <div class="options">
+              <label class="choice">
+                <input type="radio" name="deambulacion" value="1" checked />
+                <span>Independiente</span>
+              </label>
+              <label class="choice">
+                <input type="radio" name="deambulacion" value="0" />
+                <span>Necesita ayuda</span>
+              </label>
+            </div>
+          </article>
+
+          <article class="question-card">
+            <div class="question-head">
+              <div class="number">6</div>
+              <h3>Continencia</h3>
+            </div>
+            <p>Control de esfínteres y manejo de la continencia.</p>
+
+            <div class="options">
+              <label class="choice">
+                <input type="radio" name="continencia" value="1" checked />
+                <span>Independiente</span>
+              </label>
+              <label class="choice">
+                <input type="radio" name="continencia" value="0" />
+                <span>Necesita ayuda</span>
+              </label>
+            </div>
+          </article>
+
+          <article class="question-card">
+            <div class="question-head">
+              <div class="number">7</div>
+              <h3>Alimentación</h3>
+            </div>
+            <p>Capacidad para comer y beber sin asistencia.</p>
+
+            <div class="options">
+              <label class="choice">
+                <input type="radio" name="alimentacion" value="1" checked />
+                <span>Independiente</span>
+              </label>
+              <label class="choice">
+                <input type="radio" name="alimentacion" value="0" />
+                <span>Necesita ayuda</span>
+              </label>
+            </div>
+          </article>
+        </div>
+
+        <div class="actions">
+          <button type="button" class="reset-btn" id="resetBtn">Reiniciar evaluación</button>
+        </div>
+      </form>
+
+      <div class="legend">
+        <div class="legend-card">
+          <h4>Interpretación del resultado</h4>
+
+          <div class="scale-grid">
+            <div class="scale indep">
+              <strong>6-7 puntos</strong>
+              <p>Independiente. Realiza las actividades básicas sin ayuda.</p>
+            </div>
+
+            <div class="scale leve">
+              <strong>4-5 puntos</strong>
+              <p>Dependencia leve. Necesita ayuda ocasional en algunas tareas.</p>
+            </div>
+
+            <div class="scale moderada">
+              <strong>2-3 puntos</strong>
+              <p>Dependencia moderada. Requiere asistencia frecuente.</p>
+            </div>
+
+            <div class="scale severa">
+              <strong>0-1 puntos</strong>
+              <p>Dependencia severa. Necesita apoyo constante o supervisión.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('katzForm');
+    const scoreEl = document.getElementById('score');
+    const interpretationEl = document.getElementById('interpretation');
+    const descriptionEl = document.getElementById('description');
+    const meterFill = document.getElementById('meterFill');
+    const summaryCard = document.getElementById('summaryCard');
+    const resetBtn = document.getElementById('resetBtn');
+
+    const interpretations = [
+      {
+        min: 6,
+        max: 7,
+        state: 'independiente',
+        label: 'Independiente',
+        description: 'La persona puede realizar todas las actividades sin ayuda y conserva una autonomía funcional alta.'
+      },
+      {
+        min: 4,
+        max: 5,
+        state: 'leve',
+        label: 'Dependencia leve',
+        description: 'La persona necesita ayuda en algunas actividades, pero conserva una buena parte de su autonomía.'
+      },
+      {
+        min: 2,
+        max: 3,
+        state: 'moderada',
+        label: 'Dependencia moderada',
+        description: 'La persona requiere ayuda frecuente para realizar varias actividades básicas del cuidado diario.'
+      },
+      {
+        min: 0,
+        max: 1,
+        state: 'severa',
+        label: 'Dependencia severa',
+        description: 'La persona necesita ayuda constante para realizar actividades básicas y puede requerir supervisión continua.'
+      }
+    ];
+
+    function calculateScore() {
+      const data = new FormData(form);
+      let total = 0;
+
+      for (const value of data.values()) {
+        total += Number(value);
+      }
+
+      return total;
+    }
+
+    function updateResult() {
+      const total = calculateScore();
+      const found = interpretations.find(item => total >= item.min && total <= item.max) || interpretations[3];
+
+      scoreEl.textContent = total;
+      interpretationEl.textContent = found.label;
+      descriptionEl.textContent = found.description;
+      summaryCard.setAttribute('data-state', found.state);
+
+      const percent = (total / 7) * 100;
+      meterFill.style.width = `${Math.min(percent, 100)}%`;
+    }
+
+    form.addEventListener('change', updateResult);
+    resetBtn.addEventListener('click', () => {
+      form.reset();
+      document.querySelectorAll('input[type="radio"]').forEach(input => {
+        if (input.defaultChecked) {
+          input.checked = true;
+        }
+      });
+      updateResult();
+    });
+
+    updateResult();
+  </script>
+</body>
 </html>
