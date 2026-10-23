@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Valoración funcional del Índice de Katz. Evalúa independencia para actividades básicas de la vida diaria con una herramienta visual y accesible."
+      content="Índice de Katz: herramienta visual para evaluar la independencia funcional y actividades básicas de la vida diaria."
     />
-    <title>Índice de Katz | Valoración funcional</title>
+    <title>Índice de Katz | Valoración Funcional</title>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
@@ -26,9 +26,9 @@
             <p class="eyebrow">valoración funcional</p>
             <h1>Índice de Katz</h1>
             <p class="subtitle">
-              Herramienta clínica para valorar el grado de independencia de una persona al realizar
-              actividades básicas de la vida diaria, como aseo personal, movilidad,
-              continencia, alimentación y cuidado personal.
+              Herramienta clínica orientada a valorar la independencia de una persona para realizar
+              las actividades básicas de la vida diaria, como aseo, movilidad, continencia,
+              cuidado personal y alimentación.
             </p>
 
             <div class="chip-row" aria-label="Etiquetas del índice">
@@ -36,62 +36,56 @@
               <span class="chip">Autonomía</span>
               <span class="chip">Atención clínica</span>
               <span class="chip">Funcionamiento</span>
+              <span class="chip">Cuidado</span>
             </div>
           </div>
 
           <aside class="summary-card" id="summaryCard" data-state="independiente" aria-live="polite">
             <div class="mini-label">Resultado</div>
-
             <div class="score-wrap">
               <span class="score" id="score">7</span>
               <span class="score-max">/ 7</span>
             </div>
-
             <div class="interpretation" id="interpretation">Independiente</div>
-
             <div class="meter" aria-hidden="true">
               <span class="meter-fill" id="meterFill"></span>
             </div>
-
             <p id="description">
               La persona puede realizar todas las actividades sin ayuda y mantiene una autonomía funcional alta.
             </p>
           </aside>
         </section>
 
-        <section class="feature-grid" aria-label="Información general sobre la escala">
+        <section class="feature-grid" aria-label="Información general de la escala">
           <article class="feature-card">
             <span class="feature-tag">Objetivo</span>
-            <h3>Evaluar autonomía</h3>
+            <h3>Medir autonomía</h3>
             <p>
-              Determina si la persona requiere ayuda para actividades esenciales del cuidado diario
-              y su nivel de dependencia funcional.
+              Evalúa la capacidad para realizar actividades esenciales del cuidado diario y detectar dependencia funcional.
             </p>
           </article>
 
           <article class="feature-card">
             <span class="feature-tag">Puntuación</span>
-            <h3>Escala de 0 a 7</h3>
+            <h3>Escala 0–7</h3>
             <p>
-              Cuanto mayor es la puntuación, mayor es la independencia funcional. Los valores bajos
-              indican dependencia para actividades básicas.
+              Cuanto mayor sea la puntuación, mayor es la independencia funcional y menor la necesidad de apoyo.
             </p>
           </article>
 
           <article class="feature-card">
             <span class="feature-tag">Uso</span>
-            <h3>Atención clínica</h3>
+            <h3>Práctica clínica</h3>
             <p>
-              Ayuda a orientar la planificación de cuidados, rehabilitación, recursos de apoyo y
-              seguimiento del estado funcional.
+              Se utiliza para seguimiento, planificación de cuidados y valoración funcional en distintos contextos.
             </p>
           </article>
 
           <article class="feature-card">
-            <span class="feature-tag">Valor</span>
-            <h3>Herramienta útil</h3>
+            <span class="feature-tag">Utilidad</span>
+            <h3>Decisiones</h3>
             <p>
-              Permite comparar la capacidad funcional en distintos momentos y mejorar la toma de decisiones clínicas.
+              Ayuda a orientar recursos, rehabilitación, apoyo y continuidad en la atención de la persona.
             </p>
           </article>
         </section>
@@ -114,7 +108,7 @@
 
           <article class="info-card accent-card">
             <div class="info-header">
-              <span class="info-badge alt">Cómo interpretar</span>
+              <span class="info-badge alt">Interpretación</span>
             </div>
             <h2>Guía rápida</h2>
             <div class="compact-grid">
@@ -136,6 +130,33 @@
               </div>
             </div>
           </article>
+        </section>
+
+        <section class="explain-panel">
+          <div class="section-title-wrap">
+            <p class="section-eyebrow">¿Para qué sirve?</p>
+            <h2>Evaluación funcional útil en la práctica</h2>
+          </div>
+
+          <div class="explain-grid">
+            <article class="mini-box">
+              <div class="icon-circle">1</div>
+              <h3>Identifica dependencia</h3>
+              <p>Permite reconocer si la persona necesita apoyo para tareas básicas del cuidado personal.</p>
+            </article>
+
+            <article class="mini-box">
+              <div class="icon-circle">2</div>
+              <h3>Apoya la planificación</h3>
+              <p>Facilita decidir qué nivel de asistencia, supervisión o rehabilitación requiere.</p>
+            </article>
+
+            <article class="mini-box">
+              <div class="icon-circle">3</div>
+              <h3>Monitorea progresos</h3>
+              <p>Ayuda a comparar la situación funcional en distintos momentos de la atención.</p>
+            </article>
+          </div>
         </section>
 
         <section class="form-panel" aria-labelledby="form-title">
@@ -361,11 +382,9 @@
       function calculateScore() {
         const data = new FormData(form);
         let total = 0;
-
         for (const value of data.values()) {
           total += Number(value);
         }
-
         return total;
       }
 
